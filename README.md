@@ -1,3 +1,6 @@
+# Task Tracker 
+Sample solution for the task-tracker challenge from roadmap.sh.
+
 # How to run
 
 Clone the repository and run the following command in the terminal:
