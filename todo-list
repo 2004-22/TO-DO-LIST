@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import json
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--add", "--a", type=str,
+                    help="add task to do list")
+parser.add_argument("--update", "--up", nargs=2,
+                    metavar=("POSITION", "TASKS"),
+                    help="updates task to the to do list")
+parser.add_argument("--delete", "--dl", type=int,
+                    help="Delete task from to do list")
+parser.add_argument("--mark-in-progress", "--mp", type=int,
+                    help="marking a task in progress")
+parser.add_argument("--mark-done", "--md", type=int,
+                    help="marking task as done")
+parser.add_argument("--list", "--l", action="store_true",
+                    help="list all tasks")
+parser.add_argument("--list-done", "--ld", action="store_true",
+                    help="listing completed tasks")
+parser.add_argument("--list-pending", "--lp", action="store_true",
+                    help="list all pending tasks")
+parser.add_argument("--list-in-progress", "--lip", action="store_true",
+                    help="list task in progress")
+
+args = parser.parse_args()
+
+todo_file = 'todo.json'
+todo = []
+
+
+def load_file():
+    if os.path.exists(todo_file):  # check if the file exist
+        with open(todo_file, 'r') as f:  # open the file in reading mode as f
+            global todo
+            todo = json.load(f)
+
+
+def save_task():
+    with open(todo_file, 'w') as f:  # open the file in writing mode so it can be edited
+        json.dump(todo, f, indent=4)
+
+
+def get_new_id():
+    # If todo is empty, return 1 as the first ID
+    if not todo:
+        return 1
+    # Otherwise, return the next ID, which is one more than the maximum existing ID
+    return max(task['id'] for task in todo) + 1
+
+
+def add(task):
+    load_file()  # load the files
+    if isinstance(task, str) and task.strip():  # checks if it's a string and remove whitespaces
+        if any(t['task'] == task for t in todo):  # loops and checks whether task exist int the todo
+            print("Task already in the list")
+            return
+        new_task = {
+            "id": get_new_id(),
+            "task": task,
+            "status": "pending"
+        }
+        todo.append(new_task)
+        save_task()
+        print(f'{task} has been added')
+    else:
+        print("Enter a no-empty string")
+
+
+def update(id_number, task):
+    load_file()
+    for t in todo:
+        if t["id"] == id_number:
+            t["task"] = task
+            print(f'{task}  has been updated at index {id_number}')
+    save_task()
+
+
+def delete(id):
+    load_file()
+    for t in todo:
+        if t["id"] == id:
+            print(f'{t["task"]} has been deleted')
+            todo.remove(t)
+    save_task()
+
+
+def marked_in_progress(id):
+    load_file()
+    for t in todo:
+        if t["id"] == id:
+            t["status"] = "in progress"
+            print(f'{t["task"]} is in progress')
+    save_task()
+
+
+def done(id):
+    load_file()
+    for t in todo:
+        if t["id"] == id:
+            t["status"] = "done"
+            print(f'{t["task"]} is completed')
+    save_task()
+
+
+def list_all():
+    load_file()
+    for t in todo:
+        print(f'ID {t["id"]} {t["task"]}')
+
+
+def list_done():
+    load_file()
+    for t in todo:
+        if t["status"] == "done":
+            print(f'ID {t["id"]} {t["task"]}')
+
+
+def list_pending():
+    load_file()
+    for t in todo:
+        if t["status"] == "pending":
+            print(f'ID {t["id"]} {t["task"]}')
+
+
+def list_in_progress():
+    load_file()
+    for t in todo:
+        if t["status"] == "in progress":
+            print(f'ID {t["id"]} {t["task"]}')
+
+
+if args.add:
+    add(args.add)
+if args.update:
+    position = int(args.update[0])
+    new_task = args.update[1]
+    update(position, new_task)
+if args.delete:
+    delete(args.delete)
+if args.mark_in_progress:
+    marked_in_progress(args.mark_in_progress)
+if args.mark_done:
+    done(args.mark_done)
+if args.list:
+    list_all()
+if args.list_done:
+    list_done()
+if args.list_pending:
+    list_pending()
+if args.list_in_progress:
+    list_in_progress()

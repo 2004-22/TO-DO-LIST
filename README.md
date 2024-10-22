@@ -1,10 +1,32 @@
-# TO-DO LIST 
+How to run
 
-A simple to-do list made with pyton that uses the cli 
+Clone the repository and run the following command in the terminal:
+https://github.com/2004-22/TO-DO-LIST.git
+cd 2004-22/TO-DO-LIST
+mv app.py todo-list
+chmod +x todo-list
 
-# Installation
-No installation is necessary. Ensure you have python installed on your system
+Run the following command to build and run the project:
 
-# Usage 
-Run the program in your IDE, editor, or terminal/command prompt.
+go build -o task-tracker
+./todo-list --help # To see the list of available commands
 
+# To add a task
+./todo-list add "Buy groceries"
+
+# To update a task
+./todo-list update 1 "Buy groceries and cook dinner"
+
+# To delete a task
+./todo-list delete 1
+
+# To mark a task as in progress/done/todo
+./todo-list mark-in-progress 1
+./todo-list mark-done 1
+./todo-list mark-todo 1
+
+# To list all tasks
+./todo-list list
+./todo-list list-done
+./todo-list list-pending
+./todo-list list-in-progress
