@@ -1,4 +1,4 @@
-**How to run
+# How to run
 
 Clone the repository and run the following command in the terminal:
 https://github.com/2004-22/TO-DO-LIST.git
