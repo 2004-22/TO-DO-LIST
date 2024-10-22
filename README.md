@@ -10,21 +10,21 @@ Run the following command to build and run the project:
 
 ./todo-list --help # To see the list of available commands
 
-<!-- To add a task -->
+`# To add a task`
 ./todo-list add "Buy groceries"
 
- <!-- To update a task -->
+ `# To update a task`
 ./todo-list update 1 "Buy groceries and cook dinner"
 
-<!-- To delete a task -->
+`# To delete a task`
 ./todo-list delete 1
 
-<!-- To mark a task as in progress/done/todo -->
+`# To mark a task as in progress/done/todo`
 ./todo-list mark-in-progress 1
 ./todo-list mark-done 1
 ./todo-list mark-todo 1
 
-<!-- To list all tasks  -->
+`# To list all tasks`
 ./todo-list list
 ./todo-list list-done
 ./todo-list list-pending
